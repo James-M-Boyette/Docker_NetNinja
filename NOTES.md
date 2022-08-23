@@ -40,9 +40,13 @@
   > Note: if you want a specific version of said technology, you'll need to specify that (using, say "") - Note: When you pull a pre-made image, it'll show in Docker's 'images' tab … you can run this image as-is, and it'll create a new container with a randomly-assigned name
 
 - For any running container, you have several options (within docker's local UI):
+
   > Stop
+
   > Restart
+
   > Delete
+
   > Enter a console (where you can do OS commmands (Linux etc), Tech commands (Node.js commands etc), etc.)
 
 ### #5: Docker Files …
@@ -58,7 +62,7 @@
     > 'npm install' to execute the package.json, create a node\*modules folder, etc. and then
     > 'node app.js' to start the application code
 
-    ##### To make a Docker file
+  - To make a Docker file
 
     - Create a file named "Docker" (with a capital 'D' and no extension)
       > This will contain instructions for creating an image
