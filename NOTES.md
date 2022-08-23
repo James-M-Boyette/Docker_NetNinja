@@ -1,5 +1,7 @@
-### #1: What is Docker? - It uses containers to run images in isolated environments … - Docker's utility lies in its ability to create synchronized development environments:
+### #1: What is Docker?
 
+- It uses containers to run images in isolated environments …
+- Docker's utility lies in its ability to create synchronized development environments:
 - If you are developing an application using a specific version of Node.js, and specific versions of other technologies, the image/blueprint will allow everyone on your team to collaborate using the exact same technologies
   > They don't need to go download everything piece by piece (following a check list etc) nor do they run the risk of setting things up incorrectly.
   > They get all dependencies
