@@ -13,11 +13,11 @@
 
 - Essentially "blueprints" for Docker containers; they have …
 
-> A Runtime environment
-> Application code
-> Any dependencies
-> Extra config files (ENVs etc)
-> Commands
+  > A Runtime environment
+  > Application code
+  > Any dependencies
+  > Extra config files (ENVs etc)
+  > Commands
 
 - When images are run they create unique containers - each of which is …
   > A running instance of said image, and
@@ -32,9 +32,13 @@
   > Pre-made versions of these can be found on "Docker Hub"
 - Child layers can include copying source code, loading dependences etc
 - In order to begin with a pre-made 'parent' image, go to Docker Hub and find the command for the desired image
+
   > You might want the official Node.js image, for instance, as the parent layer, and would need to run "docker pull node"
+
   > Note: when I tried to run the command "docker pull node" from the 10TB drive, I got an error; running the same command from C:\ worked as expected
+
   > Note: if you want a specific version of said technology, you'll need to specify that (using, say "") - Note: When you pull a pre-made image, it'll show in Docker's 'images' tab … you can run this image as-is, and it'll create a new container with a randomly-assigned name
+
 - For any running container, you have several options (within docker's local UI):
   > Stop
   > Restart
