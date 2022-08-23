@@ -56,6 +56,7 @@
   - He has a dummy application set up, which consists of
 
     > A package.json file (for dependencies)
+
     > An app.js file (application code)
 
   - Normally, you'd need to run
