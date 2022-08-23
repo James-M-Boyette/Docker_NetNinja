@@ -2,7 +2,7 @@
 FROM node:17-alpine
 
 # Declare a working directory to be used for all subsequent commands ...
-WORKDIR /app
+WORKDIR /api
 
 # Copy various files from our project folder to the image's folders ...
 
@@ -10,6 +10,8 @@ WORKDIR /app
 # COPY . /app/
 # ... becomes ...
 COPY . .
+
+# Note: initially, this instruction can cause a problem, since it tells Docker to copy all files from 
 
 # Install the package.json's dependancies ...
 RUN npm install 
