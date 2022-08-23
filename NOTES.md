@@ -53,13 +53,15 @@
 
 - How to make one:
 
-  > He has a dummy application set up, which consists of
+  - He has a dummy application set up, which consists of
 
-  - A package.json file (for dependencies)
+    > A package.json file (for dependencies)
     > An app.js file (application code)
+
   - Normally, you'd need to run
 
     > 'npm install' to execute the package.json, create a node\*modules folder, etc. and then
+
     > 'node app.js' to start the application code
 
   - To make a Docker file
@@ -69,29 +71,29 @@
 
     1. First line:
 
-    - `FROM node:17-alpine`
-      > FROM = "this is the parent image"
-      > Node:17 = node version 17
-      > -alpine = version of Linux
-    - This tells Docker to, before anything else, pull in the Node.js and Linux versions we've specified (note: either from our local installation, or from docker hub, if we're a dev that hasn't added it yet)
+       - `FROM node:17-alpine`
+         > FROM = "this is the parent image"
+         > Node:17 = node version 17
+         > -alpine = version of Linux
+       - This tells Docker to, before anything else, pull in the Node.js and Linux versions we've specified (note: either from our local installation, or from docker hub, if we're a dev that hasn't added it yet)
 
     2. Second line:
 
-    - `COPY . .`
-      > COPY =
-      > '.' = relative path (to the root directory of the app)
-      > '.' = relative path in the image
-    - This tells Docker to, secondly, copy various files from our project folder to the image
-      > If we had file in a "src" folder, this command would be 'COPY /src .'
-      > If we wanted to copy everything to a folder in the image called "APP" we'd write 'COPY . /app'
-      > (and if we wanted both, we'd do 'COPY ./src /app')
+       - `COPY . .`
+         > COPY =
+         > '.' = relative path (to the root directory of the app)
+         > '.' = relative path in the image
+       - This tells Docker to, secondly, copy various files from our project folder to the image
+         > If we had file in a "src" folder, this command would be 'COPY /src .'
+         > If we wanted to copy everything to a folder in the image called "APP" we'd write 'COPY . /app'
+         > (and if we wanted both, we'd do 'COPY ./src /app')
 
     3. Third line:
 
-    - `RUN npm install`
-    - This tells docker to run a given command while the image is being built
-      > PROBLEM: this wont work in our case because we've copied our files into the 'app' folder of our image … and therefore need to run 'npm install' in the same folder in order to execute the package.json …
-      > SOLN: Add a line before our 'RUN' command
+       - `RUN npm install`
+       - This tells docker to run a given command while the image is being built
+         > PROBLEM: this wont work in our case because we've copied our files into the 'app' folder of our image … and therefore need to run 'npm install' in the same folder in order to execute the package.json …
+         > SOLN: Add a line before our 'RUN' command
 
     4. (Inserted) second line (so all other commands can use it):
 
@@ -99,25 +101,25 @@
 
     5. Fifth line:
 
-    - `CMD ["node", "app.js"]`
-      > (and not RUN …)
-    - Why 'CMD' instead of 'RUN' ? Because these first instructions are occurring at \_build time\* … and we want to run app.js at _run time_ … IOW, these are image instructions rather than instructions for a given container (and a container is where we'd run our app)
+       - `CMD ["node", "app.js"]`
+         > (and not RUN …)
+       - Why 'CMD' instead of 'RUN' ? Because these first instructions are occurring at \_build time\* … and we want to run app.js at _run time_ … IOW, these are image instructions rather than instructions for a given container (and a container is where we'd run our app)
 
     6. Fifth (inserted) line:
 
-    - Before we can run our app.js router, we need to expose a port with …
-    - `EXPOSE 4000`
-    - This tells docker not only to open said port, but also to own it (so our computer doesn't have access to port: 4000 anymore)
-      > Note: this isn't strictly necessary, but it makes the Docker file more readable and helps "port mapping" later-on
+       - Before we can run our app.js router, we need to expose a port with …
+       - `EXPOSE 4000`
+       - This tells docker not only to open said port, but also to own it (so our computer doesn't have access to port: 4000 anymore)
+         > Note: this isn't strictly necessary, but it makes the Docker file more readable and helps "port mapping" later-on
 
     ##### In order to build an image from a Dockerfile, run
 
-    - `docker build -t netninja_docker_demo .`
-      > Note: here, the '-t netninja_docker_demo' = tag and a name, and the '.' is a relative path for the Dockerfile to be run
-    - When you run this command, an image is created and stored for your Docker desktop app …
-    - ... Therefore, if you update the Dockerfile and re-run 'docker build …' you will replace the image
-      > So if you want to save the old image, give a new name tag
-      > And if you want to replace/update the existing one, give it the same tag
+        - `docker build -t netninja_docker_demo .`
+          > Note: here, the '-t netninja_docker_demo' = tag and a name, and the '.' is a relative path for the Dockerfile to be run
+        - When you run this command, an image is created and stored for your Docker desktop app …
+        - ... Therefore, if you update the Dockerfile and re-run 'docker build …' you will replace the image
+          > So if you want to save the old image, give a new name tag
+          > And if you want to replace/update the existing one, give it the same tag
 
 ### #6: .dockerignore
 
@@ -136,7 +138,7 @@
     > Note: Apparently this option is only made available if you run the 'EXPOSE' command (and thus is what he was referencing when he said 'it makes port mapping easier later-on' …
     > You can see what port you've specified for this option in the 'container' window of Docker Desktop (under 'Port(s)')
   - Volumes (addressed in video #\_)
-  - ENVs (never addressed)
+  - ENVs (_never addressed_)
 
   ##### Working with Docker console …
 
