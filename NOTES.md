@@ -49,78 +49,92 @@
 
   > Enter a console (where you can do OS commmands (Linux etc), Tech commands (Node.js commands etc), etc.)
 
-### #5: Docker Files …
+### #5: Docker Files (and how to make them) …
 
-- How to make one:
+- At the beginning of this tutorial, a couple of dummy files exist that should be noted by the student:
 
-  - He has a dummy application set up, which consists of
+  > A package.json file (for dependencies)
 
-    > A package.json file (for dependencies)
+  > An app.js file (application code)
 
-    > An app.js file (application code)
-
-  - Normally, you'd need to run
+  - (If you didn't have a Dockerfile to automate things ...) Normally, you'd need to run
 
     > 'npm install' to execute the package.json, create a node\*modules folder, etc. and then
 
     > 'node app.js' to start the application code
 
-  - To make a Docker file
+- To make a Docker file
 
-    - Create a file named "Dockerfile" (with a capital 'D' and no extension). In it, write:
-      > This will contain instructions for creating an image
+  - Create a file named "Dockerfile" (with a capital 'D' and no extension). In it, write:
+    > The Dockerfile contains instructions for creating an image; note that aside from the first line, how the remainder of the file is set up is up to you - though it'll become clear that proper sequencing will avoid errors and inefficiencies
 
-    1. First line:
+  1. First line:
 
-       - `FROM node:17-alpine`
-         > FROM = "this is the parent image"
-         > Node:17 = node version 17
-         > -alpine = version of Linux
-       - This tells Docker to, before anything else, pull in the Node.js and Linux versions we've specified (note: either from our local installation, or from docker hub, if we're a dev that hasn't added it yet)
+     - `FROM node:17-alpine`
+       > FROM = "this is the parent image"
+       > Node:17 = node version 17
+       > -alpine = version of Linux
+     - This tells Docker to, before anything else, pull in the Node.js and Linux versions we've specified (note: either from our local installation, or from docker hub, if we're a dev that hasn't added it yet)
 
-    2. Second line:
+  2. Second line:
 
-       - `COPY . .`
-         > COPY =
-         > '.' = relative path (to the root directory of the app)
-         > '.' = relative path in the image
-       - This tells Docker to, secondly, copy various files from our project folder to the image
-         > If we had file in a "src" folder, this command would be 'COPY /src .'
-         > If we wanted to copy everything to a folder in the image called "APP" we'd write 'COPY . /app'
-         > (and if we wanted both, we'd do 'COPY ./src /app')
+     - `COPY . .`
+       > COPY =
+       > '.' = relative path (to the root directory of the app)
+       > '.' = relative path in the image
+     - This tells Docker to, secondly, copy various files from our project folder to the image
+       > If we had file in a "src" folder, this command would be 'COPY /src .'
+       > If we wanted to copy everything to a folder in the image called "APP" we'd write 'COPY . /app'
+       > (and if we wanted both, we'd do 'COPY ./src /app')
 
-    3. Third line:
+  3. Third line:
 
-       - `RUN npm install`
-       - This tells docker to run a given command while the image is being built
-         > PROBLEM: this wont work in our case because we've copied our files into the 'app' folder of our image … and therefore need to run 'npm install' in the same folder in order to execute the package.json …
-         > SOLN: Add a line before our 'RUN' command
+     - `RUN npm install`
+     - This tells docker to run a given command while the image is being built
+       > PROBLEM: this wont work in our case because we've copied our files into the 'app' folder of our image … and therefore need to run 'npm install' in the same folder in order to execute the package.json …
+       > SOLN: Add a line before our 'RUN' command
 
-    4. (Inserted) second line (so all other commands can use it):
+  4. (Inserted) second line (so all other commands can use it):
 
-       - `WORKDIR /app`
+     - `WORKDIR /app`
 
-    5. Fifth line:
+  5. Fifth line:
 
-       - `CMD ["node", "app.js"]`
-         > (and not RUN …)
-       - Why 'CMD' instead of 'RUN' ? Because these first instructions are occurring at \_build time\* … and we want to run app.js at _run time_ … IOW, these are image instructions rather than instructions for a given container (and a container is where we'd run our app)
+     - `CMD ["node", "app.js"]`
+       > (and not RUN …)
+     - Why 'CMD' instead of 'RUN' ? Because these first instructions are occurring at \_build time\* … and we want to run app.js at _run time_ … IOW, these are image instructions rather than instructions for a given container (and a container is where we'd run our app)
 
-    6. Fifth (inserted) line:
+  6. Fifth (inserted) line:
 
-       - Before we can run our app.js router, we need to expose a port with …
-       - `EXPOSE 4000`
-       - This tells docker not only to open said port, but also to own it (so our computer doesn't have access to port: 4000 anymore)
-         > Note: this isn't strictly necessary, but it makes the Docker file more readable and helps "port mapping" later-on
+     - Before we can run our app.js router, we need to expose a port with …
+     - `EXPOSE 4000`
+     - This tells docker not only to open said port, but also to own it (so our computer doesn't have access to port: 4000 anymore)
+       > Note: this isn't strictly necessary, but it makes the Docker file more readable and helps "port mapping" later-on
 
-  - In order to build an image from a Dockerfile, run
+  - Note: Each of these lines are effectively "layers" in/of the image, starting with the _parent_ `node` + `linux` layer
 
-    - `docker build -t netninja_docker_demo .`
-      > Note: here, the '-t netninja_docker_demo' = tag and a name, and the '.' is a relative path for the Dockerfile to be run
-    - When you run this command, an image is created and stored for your Docker desktop app …
-    - ... Therefore, if you update the Dockerfile and re-run 'docker build …' you will replace the image
-      > So if you want to save the old image, give a new name tag
-      > And if you want to replace/update the existing one, give it the same tag
+- In order to build an image from a Dockerfile, run
+
+  - `docker build -t netninja_docker_demo .`
+    > Note: here, the '-t netninja_docker_demo' = tag and a name, and the '.' is a relative path for the Dockerfile to be run
+  - When you run this command, an image is created and stored for your Docker desktop app …
+  - ... Therefore, if you update the Dockerfile and re-run 'docker build …' you will replace the image
+
+    > So if you want to save the old image, give a new name tag
+
+    > And if you want to replace/update the existing one, give it the same tag
+
+  - Ultimately, images are read-only once they're created, so any changes made to code files etc will need to be (re)saved to the existing or a new image.
+
+- "Layer Caching" (video #8)
+
+  - Given that generating new images can be time-consuming and inefficient, Docker can use earlier, cached layers of a pre-existing image in order to create a new one.
+
+  - Example of inefficiency: if you change the application code, layers 3 and 4 _could_ need to be re-run (as well as all other subsequent layers) ... so how do we make this more efficient?
+
+    > We know that neither the first two layers (the working directory nor the runtime environments) were changed, so they could be used as-is. Docker, as it turns out, _does_ use these layers (known as **cached layers** - or those layers unaffected by current staged changes) from previous images to build new ones - which speeds-up Docker's work!
+
+    > Therefore, in order to further re-factor this Dockerfile, we can move the `RUN npm install` command to before the `COPY . .` command (and add a `COPY package.json` before that so it's available to Docker). Now, we avoid building node_modules every time a change to our application code is made!
 
 ### #6: .dockerignore
 
@@ -164,16 +178,67 @@
     > … will list the processes (containers) currently running
   - `docker ps -a`
     > … will show all containers (including those not running)
-  - `docker stop <container_id>/<container_name`
+  - `docker stop <container_id>/<container_name>`
     > … will stop the given container from running
-  - `docker start <container_id>/<container_name`
+  - `docker start <container_id>/<container_name>`
 
-    > … will start a container (without creating it first … like 'docker run' would do)
+    > … will start a container (without creating it first … like 'docker run' would do) and will run it detached from the console
 
-    > Note: obviously, in this case, you don't need to map any ports etc bc those already exist in the current, given container - Working with a container (within Docker Desktop) …
+    > Note: obviously, in this case, you don't need to map any ports etc bc those already exist in the current, given container
+
+  - `docker image rm <image_id>/<image_name>`
+
+    > … will remove an image
+
+    > Note: if an image has been used to create a (currently-existing) container, you can't delete it outright
+
+  - `docker image rm <image_id>/<image_name> -f`
+
+    > … will remove an image _even if it's being used by a container_ ...
+
+  - `docker container rm <image_id>/<image_name>`
+
+    > … will remove a container (so you can run this first, and then remove it's parent image second)
+
+  - Note: you can chain files: `docker container rm <image_id/name #1> <image_id/name #2> <image_id/name #3>`
+
+  - `docker build -t <image_name>:<versoin_number ... or whatever tag you want> .`
+
+    > … will add a tag, and allow you to "version" your image
+
+  - `docker system prune -a`
+
+    > … will remove all images, containers, and all Volumes
+
+  - Working with a container (within Docker Desktop) …
 
     > If you click on a container, you will see any and all log messages generated by your app (and that you'd normally expect to see in terminal)
 
     > Moreover, every container you make will be listed in docker's 'Containers' window (so it's useful to give your containers 'v1' 'v2' 'v3' etc. suffixes …
 
     > If you want to open a connection to the container in a browser, there's an icon on the right of said container ("open with browser")
+
+### #10 (Anonymous) Volumes: Syncing Local Changes with Containers
+
+- In the case where you want to develop locally and iteratively, volumes allow you to sync changes between your local code and a container
+  > Note: volumes **do not** sync changes to your image. Therefore, you should use volumes to do a bit of work, and _then_ (re)build an image in order to share it with coworkers, etc.
+- To establish a volume use the `-v` flag, the absolute path of the source folder, a `:`, and the absolute path of the container's folder
+- To de-couple a given folder (so that it _does not_ sync), use the `-v` flag followed only by the absolute path of the container's folder
+  > Example (abstract): `docker run --name netninja_docker_demo_v3_nodemon -p 4000:4000 --rm -v <source folder path>:<container folder path> -v /app/node_modules netninja_docker_demo:nodemon`
+      - Here,
+      - `-v <source folder path>:<container folder path>` defines a volume, or synced connection
+      - `-v /app/node_modules` defines an anonymous volume, or a folder etc that won't be synced in the container
+      - (also, `--rm` removes the container when it's stopped (so we're not storing the container permanently))
+  > Example (literal): `docker run --name netninja_docker_demo_v3_nodemon -p 4000:4000 --rm -v K:\++_Tutorials (Code Files)\+ 4 Databases Libraries & Tools (projects)\Docker\Docker (Net Ninja)\NOTES.md:/app -v /app/node_modules netninja_docker_demo:nodemon`
+      - Here, we've protected the container's node_modules folder from any local changes (deletions), and required that module additions etc be pushed to the container manually (via a re-building of the image, etc.)
+
+### #11 Docker Compose
+
+- Obviously, docker commands can get very long and confusing - and one might even want to run multiple containers/projects (MongoDB: database, React: front end, Node: API back end) simultaneously ...
+- To begin create a file in the root directory named `docker-compose.yaml`
+  > Refer to the file for syntax & layout
+- To create an image and start its container, run `docker-compose up`
+- To stop the container & delete it, run `docker-compose down`
+  - ... to also delete the image, run `docker-compose down --rmi all`
+    > Here, we've told Docker to remove _all_ images created by this docker-compose file - you can also specify a specific image (if you so desire)
+  - ... to also delete all the volumes, run `docker-compose down --rmi all -v`

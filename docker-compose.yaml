@@ -1,0 +1,20 @@
+version: "3.8"
+# Version of Docker Compose to be used
+
+# 'services' takes-in multiple nested properties that can tell docker how to build our image(s) & run our ontainer(s)
+services:
+  # Our 'api' program/service should be built using the following instructions ...
+  # (Note: we can call this whatever we want; 'api' could be 'myBackEnd' or 'theServer,' etc.)
+  api:
+    # Image to be built can be found in ...
+    build: ./api
+    # Container name to be used ...
+    container_name: netninja_docker_demo_c
+    # Port mapping to be used ...
+    ports:
+      - "4000:4000"
+    # Map the 'api' folder (in our source project) to the 'app' folder (of our container)
+    # Anonomize the 'node_modules' folder of our container
+    volumes:
+      - ./api:/app
+      - ./app/node_modules
