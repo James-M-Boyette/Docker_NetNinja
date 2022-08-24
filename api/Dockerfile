@@ -38,3 +38,4 @@ EXPOSE 4000
 # VIDEO 10
 CMD ["npm", "run", "dev"]
 # Could also have run a script directly, here, but he likes to keep scripts in packaage.json
+# Note: the 'dev' script uses -L, which apparently is necessary in order to run nodemon in a Docker container ?

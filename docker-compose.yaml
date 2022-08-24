@@ -1,5 +1,5 @@
 version: "3.8"
-# Version of Docker Compose to be used
+# Version of Docker Compose to be used (also, note that Docker throws an error if this comment is in the first line of the file ... o.O)
 
 # 'services' takes-in multiple nested properties that can tell docker how to build our image(s) & run our ontainer(s)
 services:
@@ -9,7 +9,7 @@ services:
     # Image to be built can be found in ...
     build: ./api
     # Container name to be used ...
-    container_name: netninja_docker_demo_c
+    container_name: netninja_docker_demo_backend_c
     # Port mapping to be used ...
     ports:
       - "4000:4000"
@@ -18,3 +18,16 @@ services:
     volumes:
       - ./api:/app
       - ./app/node_modules
+
+  myblog:
+    build: ./myblog
+    container_name: netninja_docker_demo_frontend_c
+    ports:
+      - "3000:3000"
+    # Apparently ... windows doesn't handle this well for some reason? I've left them 'on' for now but Sean recomended removing them
+    volumes:
+      - ./myBlog:/app
+      - ./app/node_modules
+    # Start the React app in 'interactive' mode (and is the opposite of 'detached' mode) ... so our app *shouldn't* shut down automatically ...
+    stdin_open: true
+    tty: true

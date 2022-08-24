@@ -236,7 +236,11 @@
 
 - Obviously, docker commands can get very long and confusing - and one might even want to run multiple containers/projects (MongoDB: database, React: front end, Node: API back end) simultaneously ...
 - To begin create a file in the root directory named `docker-compose.yaml`
+
   > Refer to the file for syntax & layout
+
+  > Note: you can chain multiple containers, as demonstrated in this project's `docker-compose.yaml` file
+
 - To create an image and start its container, run `docker-compose up`
 - To stop the container & delete it, run `docker-compose down`
   - ... to also delete the image, run `docker-compose down --rmi all`
