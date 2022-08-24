@@ -1,6 +1,6 @@
 ﻿# Docker-Net-Ninja-
 
-### This repo follows an introductory tutorial series by [netninja](https://www.youtube.com/playlist?list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) for [Docker](https://www.docker.com/).
+### This repo follows an introductory [tutorial](https://github.com/iamshaunjp/docker-crash-course) series by [netninja](https://www.youtube.com/playlist?list=PL4cUxeGkcC9hxjeEtdHFNYMtCpjNBm3h7) for [Docker](https://www.docker.com/).
 
 ### What you'll find here:
 - My [notes](https://github.com/sou7hernsaint/Docker-Net-Ninja-/blob/main/NOTES.md) from the series 
