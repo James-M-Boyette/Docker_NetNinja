@@ -161,54 +161,54 @@
   - Volumes (addressed in video #\_)
   - ENVs (_never addressed_)
 
-  ##### Working with Docker console …
+  - Working with Docker console …
 
-  - `docker images`
-    > … will display all images available
-  - `docker run <image name>`
-    > … will run a given image
-  - `docker run --name <container_name> <image_name>`
-    > … allows you to also name the container
-  - `docker run --name <container_name> -p 4065:4000 <image_name>`
-    > … allows you to map the local host port (the left-hand number) to the container port (the right-hand number)
-    > Note: 'p' stands for 'publish' ?
-  - `docker run --name <container_name> -p 4065:4000 -d <image_name>`
-    > … allows you to run the container in a detached state (without blocking your terminal) - so if you don't want to see console messages and you do want to be able to keep entering commands in the current terminal run this (otherwise, just open a second terminal dedicated to command inputs)
-  - `docker ps`
-    > … will list the processes (containers) currently running
-  - `docker ps -a`
-    > … will show all containers (including those not running)
-  - `docker stop <container_id>/<container_name>`
-    > … will stop the given container from running
-  - `docker start <container_id>/<container_name>`
+    - `docker images`
+      > … will display all images available
+    - `docker run <image name>`
+      > … will run a given image
+    - `docker run --name <container_name> <image_name>`
+      > … allows you to also name the container
+    - `docker run --name <container_name> -p 4065:4000 <image_name>`
+      > … allows you to map the local host port (the left-hand number) to the container port (the right-hand number)
+      > Note: 'p' stands for 'publish' ?
+    - `docker run --name <container_name> -p 4065:4000 -d <image_name>`
+      > … allows you to run the container in a detached state (without blocking your terminal) - so if you don't want to see console messages and you do want to be able to keep entering commands in the current terminal run this (otherwise, just open a second terminal dedicated to command inputs)
+    - `docker ps`
+      > … will list the processes (containers) currently running
+    - `docker ps -a`
+      > … will show all containers (including those not running)
+    - `docker stop <container_id>/<container_name>`
+      > … will stop the given container from running
+    - `docker start <container_id>/<container_name>`
 
-    > … will start a container (without creating it first … like 'docker run' would do) and will run it detached from the console
+      > … will start a container (without creating it first … like 'docker run' would do) and will run it detached from the console
 
-    > Note: obviously, in this case, you don't need to map any ports etc bc those already exist in the current, given container
+      > Note: obviously, in this case, you don't need to map any ports etc bc those already exist in the current, given container
 
-  - `docker image rm <image_id>/<image_name>`
+    - `docker image rm <image_id>/<image_name>`
 
-    > … will remove an image
+      > … will remove an image
 
-    > Note: if an image has been used to create a (currently-existing) container, you can't delete it outright
+      > Note: if an image has been used to create a (currently-existing) container, you can't delete it outright
 
-  - `docker image rm <image_id>/<image_name> -f`
+    - `docker image rm <image_id>/<image_name> -f`
 
-    > … will remove an image _even if it's being used by a container_ ...
+      > … will remove an image _even if it's being used by a container_ ...
 
-  - `docker container rm <image_id>/<image_name>`
+    - `docker container rm <image_id>/<image_name>`
 
-    > … will remove a container (so you can run this first, and then remove it's parent image second)
+      > … will remove a container (so you can run this first, and then remove it's parent image second)
 
-  - Note: you can chain files: `docker container rm <image_id/name #1> <image_id/name #2> <image_id/name #3>`
+    - Note: you can chain files: `docker container rm <image_id/name #1> <image_id/name #2> <image_id/name #3>`
 
-  - `docker build -t <image_name>:<versoin_number ... or whatever tag you want> .`
+    - `docker build -t <image_name>:<versoin_number ... or whatever tag you want> .`
 
-    > … will add a tag, and allow you to "version" your image
+      > … will add a tag, and allow you to "version" your image
 
-  - `docker system prune -a`
+    - `docker system prune -a`
 
-    > … will remove all images, containers, and all Volumes
+      > … will remove all images, containers, and all Volumes
 
   - Working with a container (within Docker Desktop) …
 
